@@ -1,2 +1,0 @@
-Memory_Manage.o: Memory_Manage.cpp Memory_Manage.hpp
-sha256.o: sha256.cpp sha256.hpp
