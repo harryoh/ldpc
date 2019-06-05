@@ -101,8 +101,8 @@ bool BlockHeader::Mining(LDPC *decoder)
      {
      printf("\n");
      this->Print_Header_Info();
-     decoder->Print_Word(INPUT_WORD);
-     decoder->Print_Word(OUTPUT_WORD);
+     //decoder->Print_Word(INPUT_WORD);
+     //decoder->Print_Word(OUTPUT_WORD);
     }
     
     this->nonce++;

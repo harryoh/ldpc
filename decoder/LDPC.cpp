@@ -1,5 +1,7 @@
+#include <iostream>
 #include <algorithm>
 #include <vector>
+#include <random>
 #include <time.h>
 #include <math.h>
 
@@ -68,14 +70,17 @@ bool LDPC::Make_Gallager_Parity_Check_Matrix(int seed)
   for (int i = 0; i < k; i++)
     for (int j = i*this->row_deg; j < (i + 1)*this->row_deg; j++)
       this->H[i][j] = 1;
-  
+
+  std::default_random_engine rng(seed);
+
   for (int i = 1; i < col_deg; i++)
   {
     col_order.clear();
     for (int j = 0; j <this->block_length; j++)
       col_order.push_back(j);
-    std::srand(seed--);
-    std::random_shuffle(col_order.begin(), col_order.end());
+
+    std::shuffle(col_order.begin(), col_order.end(), rng);
+
     for (int j = 0; j <this->block_length; j++)
     {
       int index = (col_order.at(j) / this->row_deg + k * i);

@@ -1,9 +1,10 @@
 // Blockchain.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
 //
+#include <iostream>
+#include <algorithm>
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
-#include <algorithm>
 
 #include "pch.hpp"
 #include "utility_function/Memory_Manage.hpp"
@@ -65,7 +66,28 @@ int main(int argc, char *argv[])
     total_num_of_H = 1;
     total_experiment = 4000;
   }
-  
+
+#if 1
+  LDPC *decoder = new LDPC;
+  char curt_hash_value[SHA256_BLOCK_SIZE];
+  decoder->Set_Param(64, 32, 3, 6, 2, 0.001);
+  decoder->Make_Gallager_Parity_Check_Matrix(10);
+  decoder->Make_Sparse_Matrix_From_Parity_Check_Matrix();
+
+  for (int x = 0; x < 10000; x++) {
+    sprintf(curt_hash_value, "%02x", x);
+    decoder->Generate_Input_Word((unsigned char*)curt_hash_value);
+    if (decoder->LDPC_Decoding() == true)
+    {
+      printf("\nSuccess!!!!\n");
+      printf("\nNonce is : %d\n", x);
+      decoder->Print_Word(INPUT_WORD);
+      decoder->Print_Word(OUTPUT_WORD);
+      break;
+    }
+  }
+
+#else
   LDPC *decoder = new LDPC;
   double cross = 0.01;
   decoder->Set_Param(block_length, message_length, num_of_ones_in_each_col, num_of_ones_in_each_row, 2, cross);
@@ -163,6 +185,8 @@ int main(int argc, char *argv[])
    }
    */
   
+#endif
   
+  return 0;
 }
 
